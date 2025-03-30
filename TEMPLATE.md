@@ -1,78 +1,32 @@
-# ShipAny Next.js Template
+# Criteria Next.js Template Documentation
 
-This is a fully-featured Next.js template with modern features for quickly bootstrapping production-ready applications.
+This is a detailed technical documentation for the Criteria Next.js template. It covers architecture, customization options, and best practices for building with this template.
 
-## Getting Started
+## 📑 Table of Contents
 
-### Option 1: Use as GitHub Template
+- [Template Overview](#template-overview)
+- [Technical Architecture](#technical-architecture)
+- [Key Files & Directories](#key-files--directories)
+- [Environment Variables](#environment-variables)
+- [Core Features](#core-features)
+- [Customization Guide](#customization-guide)
+- [Deployment Options](#deployment-options)
+- [Best Practices](#best-practices)
+- [Troubleshooting](#troubleshooting)
 
-1. Click the "Use this template" button on the GitHub repository
-2. Clone your new repository
-3. Run the setup script:
+## Template Overview
 
-   ```bash
-   npm run setup
-   # or
-   pnpm setup
-   ```
+This template is built on ShipAny's Next.js boilerplate, enhanced and customized for Criteria projects. It provides a robust foundation for building modern web applications with Next.js, featuring:
 
-4. Follow the interactive prompts to customize your project
+- App Router architecture for improved routing and layouts
+- TypeScript for type safety throughout the application
+- Tailwind CSS and Shadcn UI for consistent styling
+- Authentication, internationalization, and payment processing
+- Comprehensive testing and quality assurance tools
 
-### Option 2: Clone and Setup Manually
+## Technical Architecture
 
-1. Clone this repository
-
-   ```bash
-   git clone https://github.com/yourusername/shipany-template-one.git my-project
-   ```
-
-2. Navigate to the project directory
-
-   ```bash
-   cd my-project
-   ```
-
-3. Run the setup script:
-
-   ```bash
-   npm run setup my-project-name
-   # or
-   pnpm setup my-project-name
-   ```
-
-4. Install dependencies:
-
-   ```bash
-   npm install
-   # or
-   pnpm install
-   ```
-
-5. Start the development server:
-
-   ```bash
-   npm run dev
-   # or
-   pnpm dev
-   ```
-
-## What's Included
-
-This template comes with:
-
-- ✅ **Next.js 15** with App Router
-- ✅ **TypeScript** for type safety
-- ✅ **Tailwind CSS** for styling
-- ✅ **Shadcn UI** components for beautiful UI
-- ✅ **Sonner** for toast notifications
-- ✅ **React Context** for state management
-- ✅ **Next-Auth** for authentication
-- ✅ **Next-Intl** for internationalization
-- ✅ **Stripe** for payment processing
-- ✅ **Docker** support for containerization
-- ✅ **Cloudflare** deployment support
-
-## Project Structure
+### Project Structure
 
 ```text
 .
@@ -92,62 +46,194 @@ This template comes with:
 ├── models/               # Data models
 ├── public/               # Static assets
 ├── services/             # Business logic
+├── tests/                # Test scripts and utilities
 └── types/                # TypeScript type definitions
 ```
 
-## Key Files to Customize
+### Technology Stack
 
-After setup, consider customizing these files:
+- **Frontend Framework**: Next.js 15 with App Router
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS with Shadcn UI
+- **State Management**: React Context API
+- **Authentication**: NextAuth.js
+- **Internationalization**: next-intl
+- **Payment Processing**: Stripe
+- **Notifications**: Sonner
+- **Package Manager**: pnpm (preferred)
+- **Build Tools**: Makefile, custom scripts
+- **Deployment**: Vercel, Cloudflare Pages
 
-1. `.env.local` - Environment variables (copied from `.env.example`)
-2. `app/[locale]/layout.tsx` - Main layout including metadata
-3. `components/blocks/Footer.tsx` - Footer component
-4. `components/blocks/Header.tsx` - Header component
-5. `public/logo.svg` - Your logo
+## Key Files & Directories
+
+### Core Configuration Files
+
+- `next.config.mjs` - Next.js configuration
+- `tailwind.config.ts` - Tailwind CSS configuration
+- `tsconfig.json` - TypeScript configuration
+- `.markdownlint-cli2.jsonc` - Markdown linting rules
+- `package.json` - Dependencies and scripts
+- `Makefile` - Build and utility commands
+
+### Essential Components
+
+- `app/[locale]/layout.tsx` - Main application layout
+- `components/blocks/Header.tsx` - Header component
+- `components/blocks/Footer.tsx` - Footer component
+- `contexts/AppContext.tsx` - Main application context
 
 ## Environment Variables
 
-Make sure to set up the following environment variables in `.env.local`:
+The template uses environment variables for configuration. Create a `.env.local` file based on `.env.example`:
+
+### Critical Variables
 
 - `NEXT_PUBLIC_APP_URL` - Your application URL
-- `NEXTAUTH_URL` - Your authentication URL (for Next-Auth)
-- `NEXTAUTH_SECRET` - Secret for Next-Auth
+- `NEXTAUTH_URL` - Your authentication URL (for NextAuth)
+- `NEXTAUTH_SECRET` - Secret for NextAuth (generate with `openssl rand -base64 32`)
+
+### Optional Variables
+
 - `STRIPE_SECRET_KEY` - Stripe secret key (if using payments)
-- `STRIPE_WEBHOOK_SECRET` - Stripe webhook secret (if using payments)
+- `STRIPE_WEBHOOK_SECRET` - Stripe webhook secret
+- `NEXT_PUBLIC_GOOGLE_ANALYTICS` - Google Analytics ID
 
-See `.env.example` for a complete list of available environment variables.
+See `.env.example` for the complete list of available variables.
 
-## Deployment
+## Core Features
 
-### Vercel
+### Authentication
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/).
+Authentication is handled through NextAuth.js, configured in the `auth` directory. The template supports:
 
-### Docker
+- Email/password authentication
+- OAuth providers (Google, GitHub, etc.)
+- JWT sessions with customizable callbacks
+
+### Internationalization
+
+The template uses next-intl for internationalization:
+
+- Default locale and supported locales are configured in `i18n/config.ts`
+- Messages are stored in `i18n/messages/[locale].json`
+- Page-specific translations in `i18n/pages/[page]/[locale].json`
+
+### UI Components
+
+UI components are built with Shadcn UI and Tailwind CSS:
+
+- Base components in `components/ui/`
+- Layout blocks in `components/blocks/`
+- Page-specific components with the pages they're used in
+
+## Customization Guide
+
+### Theme Customization
+
+1. Edit `app/theme.css` to modify the color scheme
+2. Use the [shadcn-ui-theme-generator](https://zippystarter.com/tools/shadcn-ui-theme-generator) for easy theme creation
+3. Modify `tailwind.config.ts` for advanced Tailwind customization
+
+### Adding New Pages
+
+1. Create a new page in `app/[locale]/your-page/page.tsx`
+2. Add translations in `i18n/pages/your-page/[locale].json`
+3. Update navigation in `components/blocks/Header.tsx` if needed
+
+### Adding API Routes
+
+Create new API routes in `app/api/your-endpoint/route.ts` following the App Router conventions.
+
+## Deployment Options
+
+### Vercel Deployment
+
+The easiest way to deploy this template is with Vercel:
+
+1. Push your repository to GitHub
+2. Connect Vercel to your repository
+3. Configure environment variables in Vercel's dashboard
+4. Deploy
+
+### Cloudflare Pages
+
+To deploy to Cloudflare Pages:
+
+1. Configure environment variables:
+
+   ```bash
+   cp .env.example .env.production
+   cp wrangler.toml.example wrangler.toml
+   ```
+
+2. Update the variables in `.env.production` and `wrangler.toml`
+
+3. Deploy using the provided script:
+
+   ```bash
+   npm run cf:deploy
+   ```
+
+### Docker Deployment
 
 Build and run as a Docker container:
 
 ```bash
 npm run docker:build
-docker run -p 3000:3000 shipany-template-one:latest
+docker run -p 3000:3000 criteria-template:latest
 ```
 
-### Cloudflare Pages
+## Best Practices
 
-Deploy to Cloudflare Pages:
+### Code Organization
 
-```bash
-npm run cf:deploy
-```
+- Keep components small and focused on a single responsibility
+- Use TypeScript types for all props and data structures
+- Group related functionality in custom hooks
+- Follow the directory structure for consistency
 
-## Contributing
+### Performance Optimization
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+- Use Next.js Image component for optimized images
+- Implement proper code splitting with dynamic imports
+- Minimize client-side JavaScript with Server Components
+- Utilize `useMemo` and `useCallback` for expensive operations
 
-## License
+### Security Considerations
 
-This project is licensed under the terms of the license included in the repository.
+- Store sensitive information in environment variables
+- Validate all user inputs on the server
+- Use HTTPS for all API requests
+- Keep dependencies updated regularly with `make check-deps`
+
+## Troubleshooting
+
+### Common Issues
+
+#### Build Errors
+
+- **Issue**: TypeScript errors during build
+  **Solution**: Run `make test-typescript` to identify and fix type issues
+
+- **Issue**: Dependency conflicts
+  **Solution**: Clear node_modules and reinstall with `rm -rf node_modules && pnpm install`
+
+#### Development Server Issues
+
+- **Issue**: Hot reload not working
+  **Solution**: Restart the development server with `make dev`
+
+- **Issue**: API routes returning 500 errors
+  **Solution**: Check environment variables and server logs
+
+### Getting Help
+
+If you encounter issues not covered here:
+
+1. Check the [Criteria documentation](https://docs.criteria.dev)
+2. Reference the [ShipAny documentation](https://docs.shipany.ai/en)
+3. Reach out to the Criteria team for support
 
 ---
 
-Happy building with ShipAny! 🚀
+Happy building with Criteria! 🚀

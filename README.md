@@ -4,11 +4,55 @@ Modern Next.js template for Criteria projects.
 
 ![preview](preview.png)
 
-## Using as a Template
+## 📑 Table of Contents
 
-This repository is set up as a template that you can quickly use to start new projects:
+- [Features](#-features)
+- [Getting Started](#-getting-started)
+- [Development Workflow](#-development-workflow)
+- [Testing & Quality Assurance](#-testing--quality-assurance)
+- [Deployment](#-deployment)
+- [Project Configuration & Customization](#-project-configuration--customization)
+- [Resources & Community](#-resources--community)
+- [License](#-license)
 
-### Method 1: GitHub Template (Recommended)
+## 📋 Features
+
+- **App Router** - Next.js application with App Router architecture
+- **TypeScript** - Type-safe development with TypeScript
+- **Tailwind CSS** - Utility-first CSS framework
+- **Shadcn UI** - Accessible and customizable component library
+- **Authentication** - User authentication with next-auth
+- **Internationalization** - Multi-language support with next-intl
+- **Payment Integration** - Payment processing with Stripe
+- **Dark Mode** - Theme support with next-themes
+- **Toast Notifications** - User notifications with sonner
+- **React Context** - State management with React Context API
+
+## 🚀 Getting Started
+
+This repository is set up as a template that you can quickly use to start new projects.
+
+### Option 1: Use the Creation Script (Recommended)
+
+```bash
+# Using curl
+curl -fsSL https://raw.githubusercontent.com/criteria/nextjs-template/main/create-criteria-app.sh | bash -s my-project
+
+# Or clone and run
+git clone https://github.com/criteria/nextjs-template.git
+./nextjs-template/create-criteria-app.sh my-project
+```
+
+This script:
+
+- Creates a new project based on the template
+- Runs interactive setup with customization options
+- Optionally creates a GitHub repository
+- Automatically pushes to the created repository
+
+**Requirements:** curl, jq, git, GitHub Personal Access Token (for repo creation)
+
+### Option 2: GitHub Template
 
 1. Click the "Use this template" button on GitHub
 2. Clone your new repository
@@ -20,7 +64,7 @@ This repository is set up as a template that you can quickly use to start new pr
    npm run setup
    ```
 
-### Method 2: Clone and Setup Manually
+### Option 3: Manual Clone
 
 1. Clone the repository
 
@@ -42,112 +86,66 @@ This repository is set up as a template that you can quickly use to start new pr
    npm run setup
    ```
 
-### Method 3: Use the Creation Script (Recommended)
-
-Use our standalone script to create a new project with option to automatically create a GitHub repository:
-
-```bash
-# Using curl
-curl -fsSL https://raw.githubusercontent.com/criteria/nextjs-template/main/create-criteria-app.sh | bash -s my-project
-
-# Or clone and run
-git clone https://github.com/criteria/nextjs-template.git
-./nextjs-template/create-criteria-app.sh my-project
-```
-
-The script offers these features:
-
-- Creates a new project based on the template
-- Interactive setup with customization options
-- Optional GitHub repository creation
-- Automatic push to the created repository
-
-**Requirements for GitHub repo creation:**
-
-- curl
-- jq
-- git
-- GitHub Personal Access Token with 'repo' scope
-
-For detailed template documentation, see [TEMPLATE.md](TEMPLATE.md).
-
-## Quick Start
+### Quick Start
 
 1. Install dependencies
 
-```bash
-pnpm install
-# or
-make install
-```
+   ```bash
+   pnpm install
+   # or
+   make install
+   ```
 
-1. Run the development server
+2. Run the development server
 
-```bash
-pnpm dev
-# or
-make dev
-```
+   ```bash
+   pnpm dev
+   # or
+   make dev
+   ```
 
-## Customize
+## 🔧 Development Workflow
 
-- Set your environment variables
+### Development Tools
 
-```bash
-cp .env.example .env.local
-```
-
-- Set your theme in `app/theme.css`
-
-[shadcn-ui-theme-generator](https://zippystarter.com/tools/shadcn-ui-theme-generator)
-
-- Set your landing page content in `i18n/pages/landing`
-
-- Set your i18n messages in `i18n/messages`
-
-## Markdown Linting
-
-This project uses markdownlint-cli2 to automatically fix common markdown linting issues. When you save a markdown file or commit changes, linting rules will be automatically applied.
-
-- To manually lint markdown files:
+This project includes a Makefile to simplify common development tasks. To see all available commands:
 
 ```bash
-pnpm lint:md
-# or
-make lint-md
+make help
 ```
 
-- To fix markdown issues:
+### Common Commands
 
-```bash
-pnpm lint:md:fix
-# or
-make lint-md-fix
-```
+- **Development:**
+  - `make install` - Install dependencies
+  - `make dev` - Start development server
+  - `make build` - Build the project
+  - `make start` - Start production server
 
-VS Code users with the markdownlint extension will see real-time linting feedback and can enable format-on-save.
+- **Code Quality:**
+  - `make lint` - Run linters (JavaScript/TypeScript)
+  - `make lint-md` - Run markdown linter
+  - `make lint-md-fix` - Fix markdown linting issues
 
-### Testing Markdown Linting
+- **Testing:**
+  - `make test` - Run all tests
+  - `make test-markdown` - Run markdown tests
+  - `make test-typescript` - Run TypeScript type checking
 
-A test suite is available to verify the markdown linting configuration:
+- **Maintenance:**
+  - `make check-deps` - Check for outdated dependencies
+  - `make security-check` - Run security audit
+  - `make clean` - Clean build artifacts
 
-```bash
-# Run all tests
-./tests/run-markdown-tests.sh
-# or
-make test-markdown
-```
+- **Deployment:**
+  - `make deploy-vercel` - Deploy to Vercel
+  - `make deploy-cf` - Deploy to Cloudflare
 
-These tests verify:
-
-- Detection of common markdown issues
-- Automatic fixing of fixable issues
-- Pre-commit hook functionality
-- VS Code format-on-save simulation
+## 🧪 Testing & Quality Assurance
 
 ### TypeScript Type Checking
 
-You can run TypeScript type checking to ensure type safety:
+Validate that your code follows TypeScript's type system correctly:
 
 ```bash
 ./tests/test-typescript.sh
@@ -155,11 +153,46 @@ You can run TypeScript type checking to ensure type safety:
 make test-typescript
 ```
 
-This validates that your code follows TypeScript's type system correctly.
+### Markdown Linting
+
+This project uses markdownlint-cli2 to automatically fix common markdown linting issues. When you save a markdown file or commit changes, linting rules will be automatically applied.
+
+- To manually lint markdown files:
+
+  ```bash
+  pnpm lint:md
+  # or
+  make lint-md
+  ```
+
+- To fix markdown issues:
+
+  ```bash
+  pnpm lint:md:fix
+  # or
+  make lint-md-fix
+  ```
+
+VS Code users with the markdownlint extension will see real-time linting feedback and can enable format-on-save.
+
+Testing the markdown linting setup:
+
+```bash
+./tests/run-markdown-tests.sh
+# or
+make test-markdown
+```
+
+This verifies:
+
+- Detection of common markdown issues
+- Automatic fixing of fixable issues
+- Pre-commit hook functionality
+- VS Code format-on-save simulation
 
 ### Dependency Management
 
-You can check for outdated dependencies:
+Check for outdated dependencies:
 
 ```bash
 ./tests/check-dependencies.sh
@@ -171,7 +204,7 @@ This helps ensure your project is using the most up-to-date and secure dependenc
 
 ### Security Checks
 
-You can scan your dependencies for known security vulnerabilities:
+Scan your dependencies for known security vulnerabilities:
 
 ```bash
 ./tests/security-check.sh
@@ -181,68 +214,68 @@ make security-check
 
 This runs an audit of your dependencies and reports any security issues found.
 
-## Development Tools
+## 🚢 Deployment
 
-This project includes a Makefile to simplify common development tasks. To see all available commands:
+### Deploy to Vercel
 
-```bash
-make help
-```
-
-Key commands include:
-
-- `make install` - Install dependencies
-- `make dev` - Start development server
-- `make build` - Build the project
-- `make test` - Run all tests
-- `make test-markdown` - Run markdown tests
-- `make test-typescript` - Run TypeScript type checking
-- `make check-deps` - Check for outdated dependencies
-- `make security-check` - Run security audit
-- `make lint` - Run linters
-- `make deploy-vercel` - Deploy to Vercel
-- `make deploy-cf` - Deploy to Cloudflare
-
-## Deploy
-
-- Deploy to Vercel
+The easiest way to deploy your Next.js app is with Vercel:
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fcriteria%2Fnextjs-template&project-name=my-criteria-project&repository-name=my-criteria-project)
 
-- Deploy to Cloudflare
+Or via command line:
+
+```bash
+make deploy-vercel
+```
+
+### Deploy to Cloudflare
 
 1. Customize your environment variables
 
+   ```bash
+   cp .env.example .env.production
+   cp wrangler.toml.example wrangler.toml
+   ```
+
+2. Edit your environment variables in `.env.production` and put all the environment variables under `[vars]` in `wrangler.toml`
+
+3. Deploy
+
+   ```bash
+   make deploy-cf
+   # or
+   npm run cf:deploy
+   ```
+
+## ⚙️ Project Configuration & Customization
+
+### Environment Variables
+
+Set up your environment variables:
+
 ```bash
-cp .env.example .env.production
-cp wrangler.toml.example wrangler.toml
+cp .env.example .env.local
 ```
 
-edit your environment variables in `.env.production`
+### Theming
 
-and put all the environment variables under `[vars]` in `wrangler.toml`
+Customize your theme in `app/theme.css`
 
-1. Deploy
+Use the [shadcn-ui-theme-generator](https://zippystarter.com/tools/shadcn-ui-theme-generator) to create a custom theme.
 
-```bash
-npm run cf:deploy
-```
+### Internationalization
 
-## Community
+- Set your landing page content in `i18n/pages/landing`
+- Set your i18n messages in `i18n/messages`
+
+## 📚 Resources & Community
 
 - [Criteria](https://criteria.dev)
 - [Documentation](https://docs.criteria.dev)
-
-## License
-
-- [Criteria Next.js Template License](LICENSE)
-
-## Documentation & Resources
-
 - [Template Documentation](TEMPLATE.md) - Detailed documentation for this template
 - [ShipAny Documentation](https://docs.shipany.ai/en) - Official ShipAny documentation (the base framework this template is built on)
 
-This template is based on ShipAny's Next.js boilerplate, which we've licensed for internal use at Criteria. The [ShipAny documentation](https://docs.shipany.ai/en) provides comprehensive guidance on many features included in this template, including:
+This template is based on ShipAny's Next.js boilerplate, which we've licensed for internal use at Criteria. The ShipAny documentation provides comprehensive guidance on many features included in this template, including:
 
 - Authentication setup
 - Payment integration
@@ -252,3 +285,7 @@ This template is based on ShipAny's Next.js boilerplate, which we've licensed fo
 - Component customization
 
 We recommend referencing the ShipAny documentation alongside our template-specific documentation when building your projects.
+
+## 📄 License
+
+- [Criteria Next.js Template License](LICENSE)
