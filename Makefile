@@ -75,7 +75,6 @@ clean:
 	rm -rf .next
 	rm -rf out
 	rm -rf node_modules/.cache
-	rm -f pnpm-lock.yaml
 
 # Deploy to Vercel
 deploy-vercel:
