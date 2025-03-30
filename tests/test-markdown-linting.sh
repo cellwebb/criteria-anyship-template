@@ -10,10 +10,24 @@ NC='\033[0m' # No Color
 echo -e "${BLUE}=== Testing Markdown Linting ===${NC}"
 echo
 
+# Create a temporary markdownlint configuration
+TEMP_CONFIG="tests/temp.markdownlint-cli2.jsonc"
+echo -e "${YELLOW}Creating temporary markdownlint configuration...${NC}"
+cat > "$TEMP_CONFIG" << 'EOF'
+{
+  "config": {
+    "default": true,
+    "MD013": false,
+    "MD033": false,
+    "MD041": false
+  }
+}
+EOF
+
 # Test detection of issues
 echo -e "${YELLOW}Testing issue detection...${NC}"
-echo -e "Running: pnpm lint:md tests/markdown/*.md"
-if pnpm lint:md tests/markdown/*.md > /dev/null 2>&1; then
+echo -e "Running: pnpm exec markdownlint-cli2 --no-include-default-config --config $TEMP_CONFIG tests/markdown/*.md"
+if pnpm exec markdownlint-cli2 --no-include-default-config --config "$TEMP_CONFIG" tests/markdown/*.md > /dev/null 2>&1; then
   echo -e "${RED}✘ ERROR: Linter didn't detect any issues in test files that contain deliberate errors${NC}"
   echo
 else
@@ -28,8 +42,8 @@ cp tests/markdown/*.md tests/markdown/backup/
 
 # Test auto-fixing
 echo -e "${YELLOW}Testing auto-fixing...${NC}"
-echo -e "Running: pnpm lint:md:fix tests/markdown/*.md"
-pnpm lint:md:fix tests/markdown/*.md || true
+echo -e "Running: pnpm exec markdownlint-cli2 --fix --no-include-default-config --config $TEMP_CONFIG tests/markdown/*.md"
+pnpm exec markdownlint-cli2 --fix --no-include-default-config --config "$TEMP_CONFIG" tests/markdown/*.md || true
 
 # Compare files before and after fixing
 echo -e "${YELLOW}Checking differences after auto-fixing:${NC}"
@@ -47,5 +61,6 @@ done
 
 # Cleanup
 rm -rf tests/markdown/backup
+rm -f "$TEMP_CONFIG"
 
 echo -e "${BLUE}=== Test Complete ===${NC}" 

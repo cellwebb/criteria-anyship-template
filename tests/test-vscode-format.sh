@@ -10,6 +10,20 @@ NC='\033[0m' # No Color
 echo -e "${BLUE}=== Testing VS Code Format on Save Simulation ===${NC}"
 echo
 
+# Create a temporary markdownlint configuration
+TEMP_CONFIG="tests/temp.markdownlint-cli2.jsonc"
+echo -e "${YELLOW}Creating temporary markdownlint configuration...${NC}"
+cat > "$TEMP_CONFIG" << 'EOF'
+{
+  "config": {
+    "default": true,
+    "MD013": false,
+    "MD033": false,
+    "MD041": false
+  }
+}
+EOF
+
 # Create a test file with issues
 echo -e "${YELLOW}Creating test markdown file with formatting issues...${NC}"
 TEST_FILE="tests/markdown/vscode-test.md"
@@ -36,13 +50,13 @@ function test() {
 EOF
 
 echo -e "${YELLOW}Test file created. Now simulating VS Code format on save...${NC}"
-echo -e "Running: pnpm lint:md:fix $TEST_FILE"
+echo -e "Running: pnpm exec markdownlint-cli2 --fix --no-include-default-config --config $TEMP_CONFIG $TEST_FILE"
 
 # Save the original for comparison
 cp "$TEST_FILE" "${TEST_FILE}.orig"
 
 # Run the formatter
-pnpm lint:md:fix "$TEST_FILE" || true
+pnpm exec markdownlint-cli2 --fix --no-include-default-config --config "$TEMP_CONFIG" "$TEST_FILE" || true
 
 # Compare files before and after fixing
 echo -e "${YELLOW}Checking differences after simulated format-on-save:${NC}"
@@ -56,5 +70,6 @@ fi
 
 # Cleanup
 rm -f "${TEST_FILE}.orig"
+rm -f "$TEMP_CONFIG"
 
 echo -e "${BLUE}=== Test Complete ===${NC}" 

@@ -1,6 +1,6 @@
 # VS Code Format Test
 
-This line has trailing spaces.
+This line has trailing spaces.   
 
 This line has  multiple  spaces.
 
