@@ -111,7 +111,7 @@ fi
 
 # Clone the repository
 echo "Cloning the Criteria template..."
-git clone --depth=1 https://github.com/cellwebb/criteria-shipany-templates.git $PROJECT_NAME
+git clone --depth=1 https://github.com/cellwebb/criteria-shipany-template.git $PROJECT_NAME
 cd $PROJECT_NAME
 
 # Remove git history
