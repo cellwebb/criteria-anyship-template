@@ -1,0 +1,16 @@
+{
+  "config": {
+    "default": true,
+    "MD013": false,
+    "MD033": false,
+    "MD041": false
+  },
+  "ignores": [
+    "node_modules",
+    ".git",
+    ".github",
+    "**/*.min.js",
+    "*.lock",
+    "CHANGELOG.md"
+  ]
+}

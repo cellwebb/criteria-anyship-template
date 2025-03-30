@@ -9,36 +9,47 @@ This is a fully-featured Next.js template with modern features for quickly boots
 1. Click the "Use this template" button on the GitHub repository
 2. Clone your new repository
 3. Run the setup script:
+
    ```bash
    npm run setup
    # or
    pnpm setup
    ```
+
 4. Follow the interactive prompts to customize your project
 
 ### Option 2: Clone and Setup Manually
 
 1. Clone this repository
+
    ```bash
    git clone https://github.com/yourusername/shipany-template-one.git my-project
    ```
+
 2. Navigate to the project directory
+
    ```bash
    cd my-project
    ```
+
 3. Run the setup script:
+
    ```bash
    npm run setup my-project-name
    # or
    pnpm setup my-project-name
    ```
+
 4. Install dependencies:
+
    ```bash
    npm install
    # or
    pnpm install
    ```
+
 5. Start the development server:
+
    ```bash
    npm run dev
    # or
@@ -63,7 +74,7 @@ This template comes with:
 
 ## Project Structure
 
-```
+```text
 .
 ├── app/                  # Next.js App Router
 │   ├── [locale]/         # Locale-specific pages
@@ -139,4 +150,4 @@ This project is licensed under the terms of the license included in the reposito
 
 ---
 
-Happy building with ShipAny! 🚀 
+Happy building with ShipAny! 🚀

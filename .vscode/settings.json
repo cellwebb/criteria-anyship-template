@@ -3,6 +3,10 @@
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+  "[markdown]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
+  },
   "i18n-ally.localesPaths": ["i18n/messages"],
   "i18n-ally.keystyle": "nested"
 }

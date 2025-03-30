@@ -61,7 +61,7 @@ if [[ ${CREATE_GITHUB_REPO,,} == "y" ]]; then
   
   if [[ ${CREATE_GITHUB_REPO,,} == "y" ]]; then
     # Get GitHub username
-    echo -n "GitHub username: "
+    echo -n "GitHub username or organization: "
     read GITHUB_USERNAME
     
     if [ -z "$GITHUB_USERNAME" ]; then
@@ -111,7 +111,7 @@ fi
 
 # Clone the repository
 echo "Cloning the Criteria template..."
-git clone --depth=1 https://github.com/shipanyai/shipany-template-one.git $PROJECT_NAME
+git clone --depth=1 https://github.com/criteria/nextjs-template.git $PROJECT_NAME
 cd $PROJECT_NAME
 
 # Remove git history

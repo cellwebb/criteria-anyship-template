@@ -9,12 +9,15 @@
     "build": "next build",
     "start": "NODE_NO_WARNINGS=1 next start",
     "lint": "next lint",
+    "lint:md": "markdownlint-cli2 \"**/*.md\" \"!node_modules\" \"!.git\"",
+    "lint:md:fix": "markdownlint-cli2 --fix \"**/*.md\" \"!node_modules\" \"!.git\"",
     "analyze": "ANALYZE=true pnpm build",
     "cf:build": "npx @cloudflare/next-on-pages",
     "cf:preview": "pnpm cf:build && wrangler pages dev",
     "cf:deploy": "pnpm cf:build && wrangler pages deploy",
     "docker:build": "docker build -f Dockerfile -t shipany-template-one:latest .",
-    "setup": "node lib/setup.js"
+    "setup": "node lib/setup.js",
+    "prepare": "husky"
   },
   "dependencies": {
     "@ai-sdk/deepseek": "^0.1.11",
@@ -98,10 +101,16 @@
     "@types/react-dom": "^18.3.5",
     "@types/uuid": "^10.0.0",
     "cross-env": "^7.0.3",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.5.0",
+    "markdownlint-cli2": "^0.17.2",
     "postcss": "^8.4.49",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.7.2",
     "vercel": "39.1.1",
     "wrangler": "3.97.0"
+  },
+  "lint-staged": {
+    "**/*.md": "markdownlint-cli2 --fix"
   }
 }
