@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# Script to create a new ShipAny app from the template
+# Script to create a new Criteria app from the template
 
 # Default project name
-DEFAULT_PROJECT_NAME="shipany-app"
+DEFAULT_PROJECT_NAME="criteria-app"
 
 # Colors for output
 GREEN='\033[0;32m'
@@ -12,13 +12,13 @@ NC='\033[0m' # No Color
 
 # Display banner
 echo -e "${BLUE}"
-echo "  ___ _     _         _             "
-echo " / __| |__ (_)_ __   / \   _ __  _  _"
-echo " \__ \ '_ \| | '_ \ / _ \ | '_ \| || |"
-echo " |___/_.__/|_| .__//_/ \_\| .__/\_, |"
-echo "             |_|          |_|    |__/"
+echo "   ___ _ _ _            _      "
+echo "  / __| (_) |_ ___ _ __(_) __ _"
+echo " | |   | | __/ _ \ '__| |/ _\` |"
+echo " | |___| | ||  __/ |  | | (_| |"
+echo "  \____|_|\__\___|_|  |_|\__,_|"
 echo -e "${NC}"
-echo "Create a new ShipAny app from the template"
+echo "Create a new Criteria app from the template"
 echo ""
 
 # Get project name
@@ -31,7 +31,7 @@ else
 fi
 
 # Clone the repository
-echo "Cloning the ShipAny template..."
+echo "Cloning the Criteria template..."
 git clone --depth=1 https://github.com/shipanyai/shipany-template-one.git $PROJECT_NAME
 cd $PROJECT_NAME
 
@@ -42,7 +42,7 @@ rm -rf .git
 git init
 
 # Run setup script
-echo -e "${GREEN}Setting up your new ShipAny app...${NC}"
+echo -e "${GREEN}Setting up your new Criteria app...${NC}"
 npm run setup $PROJECT_NAME
 
 echo -e "${GREEN}✅ Project setup complete!${NC}"
