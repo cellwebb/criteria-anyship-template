@@ -43,7 +43,10 @@ echo -n "Create GitHub repository? (y/N): "
 read CREATE_GITHUB_REPO
 CREATE_GITHUB_REPO=${CREATE_GITHUB_REPO:-n}
 
-if [[ ${CREATE_GITHUB_REPO,,} == "y" ]]; then
+# Convert to lowercase (compatible with all bash versions)
+CREATE_GITHUB_REPO=$(echo "$CREATE_GITHUB_REPO" | tr '[:upper:]' '[:lower:]')
+
+if [ "$CREATE_GITHUB_REPO" = "y" ]; then
   # Check for GitHub token
   if [ -z "$GITHUB_TOKEN" ]; then
     echo -e "${YELLOW}GitHub Personal Access Token not found in environment.${NC}"
@@ -59,7 +62,10 @@ if [[ ${CREATE_GITHUB_REPO,,} == "y" ]]; then
     fi
   fi
   
-  if [[ ${CREATE_GITHUB_REPO,,} == "y" ]]; then
+  # Convert to lowercase again after possible reassignment
+  CREATE_GITHUB_REPO=$(echo "$CREATE_GITHUB_REPO" | tr '[:upper:]' '[:lower:]')
+
+  if [ "$CREATE_GITHUB_REPO" = "y" ]; then
     # Get GitHub username
     echo -n "GitHub username or organization: "
     read GITHUB_USERNAME
@@ -68,23 +74,15 @@ if [[ ${CREATE_GITHUB_REPO,,} == "y" ]]; then
       echo -e "${RED}No username provided. Continuing without GitHub repository creation.${NC}"
       CREATE_GITHUB_REPO="n"
     else
-      # Ask for repo visibility
-      echo -n "Make repository private? (y/N): "
-      read REPO_PRIVATE
-      REPO_PRIVATE=${REPO_PRIVATE:-n}
-      
-      if [[ ${REPO_PRIVATE,,} == "y" ]]; then
-        PRIVATE=true
-      else
-        PRIVATE=false
-      fi
+      # Always create private repositories - no need to ask
+      PRIVATE=true
       
       # Ask for repository description
       echo -n "Repository description (optional): "
       read REPO_DESCRIPTION
       
       # Creating GitHub repository
-      echo -e "${BLUE}Creating GitHub repository ${GITHUB_USERNAME}/${PROJECT_NAME}...${NC}"
+      echo -e "${BLUE}Creating private GitHub repository ${GITHUB_USERNAME}/${PROJECT_NAME}...${NC}"
       
       # API call to create repository
       CREATE_REPO_RESPONSE=$(curl -s -X POST \
@@ -109,10 +107,23 @@ if [[ ${CREATE_GITHUB_REPO,,} == "y" ]]; then
   fi
 fi
 
-# Clone the repository
+# Clone the repository (using the correctly accessible repository URL)
 echo "Cloning the Criteria template..."
-git clone --depth=1 https://github.com/cellwebb/criteria-shipany-template.git $PROJECT_NAME
-cd $PROJECT_NAME
+git clone --depth=1 https://github.com/cellwebb/criteria-anyship-template.git $PROJECT_NAME || {
+  echo -e "${RED}Error: Failed to clone the template repository.${NC}"
+  exit 1
+}
+
+# Check if directory was created successfully
+if [ ! -d "$PROJECT_NAME" ]; then
+  echo -e "${RED}Error: Failed to create project directory.${NC}"
+  exit 1
+fi
+
+cd $PROJECT_NAME || {
+  echo -e "${RED}Error: Failed to navigate to project directory.${NC}"
+  exit 1
+}
 
 # Remove git history
 rm -rf .git
@@ -122,10 +133,18 @@ git init
 
 # Run setup script
 echo -e "${GREEN}Setting up your new Criteria app...${NC}"
-npm run setup $PROJECT_NAME
+if [ -f "package.json" ]; then
+  npm run setup $PROJECT_NAME
+else
+  echo -e "${RED}Error: package.json not found. Setup script couldn't be executed.${NC}"
+  echo -e "${YELLOW}You may need to manually setup the project.${NC}"
+fi
+
+# Convert to lowercase again for final check
+CREATE_GITHUB_REPO=$(echo "$CREATE_GITHUB_REPO" | tr '[:upper:]' '[:lower:]')
 
 # If GitHub repository was created, push to it
-if [[ ${CREATE_GITHUB_REPO,,} == "y" ]]; then
+if [ "$CREATE_GITHUB_REPO" = "y" ]; then
   echo -e "${BLUE}Pushing to GitHub repository...${NC}"
   git add .
   git commit -m "Initial commit from Criteria template"
