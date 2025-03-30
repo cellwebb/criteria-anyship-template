@@ -98,6 +98,38 @@ if [ "$CREATE_GITHUB_REPO" = "y" ]; then
       elif echo "$CREATE_REPO_RESPONSE" | grep -q "html_url"; then
         echo -e "${GREEN}GitHub repository created successfully!${NC}"
         REPO_URL=$(echo "$CREATE_REPO_RESPONSE" | jq -r .clone_url)
+        REPO_FULL_NAME=$(echo "$CREATE_REPO_RESPONSE" | jq -r .full_name)
+        
+        # Ask if user wants to add a collaborator
+        echo -n "Add a collaborator to the repository? (y/N): "
+        read ADD_COLLABORATOR
+        ADD_COLLABORATOR=$(echo "$ADD_COLLABORATOR" | tr '[:upper:]' '[:lower:]')
+        
+        if [ "$ADD_COLLABORATOR" = "y" ]; then
+          echo -n "Collaborator's GitHub username: "
+          read COLLABORATOR_USERNAME
+          
+          if [ -n "$COLLABORATOR_USERNAME" ]; then
+            echo -e "${BLUE}Adding ${COLLABORATOR_USERNAME} as a collaborator...${NC}"
+            
+            # API call to add collaborator
+            ADD_COLLAB_RESPONSE=$(curl -s -X PUT \
+              -H "Authorization: token $GITHUB_TOKEN" \
+              -H "Accept: application/vnd.github.v3+json" \
+              "https://api.github.com/repos/${REPO_FULL_NAME}/collaborators/${COLLABORATOR_USERNAME}" \
+              -d '{"permission":"push"}')
+            
+            # Check if collaborator was added successfully
+            if echo "$ADD_COLLAB_RESPONSE" | grep -q "invitations"; then
+              echo -e "${GREEN}Collaborator invitation sent to ${COLLABORATOR_USERNAME}!${NC}"
+            else
+              ERROR_MESSAGE=$(echo "$ADD_COLLAB_RESPONSE" | jq -r '.message')
+              echo -e "${RED}Failed to add collaborator: ${ERROR_MESSAGE}${NC}"
+            fi
+          else
+            echo -e "${YELLOW}No collaborator username provided. Skipping...${NC}"
+          fi
+        fi
       else
         echo -e "${RED}Failed to create GitHub repository.${NC}"
         echo "Error: $(echo "$CREATE_REPO_RESPONSE" | jq -r .message)"
