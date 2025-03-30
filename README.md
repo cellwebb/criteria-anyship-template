@@ -315,6 +315,20 @@ make deploy-vercel
    npm run cf:deploy
    ```
 
+## 🔒 Security Considerations
+
+This template uses various third-party packages which may have security vulnerabilities in their dependencies. Regular security audits are recommended:
+
+```bash
+make security-check
+```
+
+Known security considerations:
+
+- Some development dependencies like `vercel`, `wrangler`, and `@cloudflare/next-on-pages` have transitive dependencies with vulnerabilities
+- These vulnerabilities are typical for development packages and don't affect the production build
+- Run `pnpm update` regularly to keep dependencies up to date
+
 ## ⚙️ Project Configuration & Customization
 
 ### Environment Variables
@@ -324,6 +338,16 @@ Set up your environment variables:
 ```bash
 cp .env.example .env.local
 ```
+
+The template includes a comprehensive set of environment variables for:
+
+- Authentication (NextAuth)
+- Database connection (Supabase)
+- Payment processing (Stripe)
+- Analytics (Google Analytics, OpenPanel)
+- Storage (AWS S3)
+
+Before deploying, make sure to properly configure these variables according to your project needs.
 
 ### Theming
 

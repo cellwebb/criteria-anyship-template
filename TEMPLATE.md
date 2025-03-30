@@ -118,6 +118,29 @@ The template uses next-intl for internationalization:
 - Messages are stored in `i18n/messages/[locale].json`
 - Page-specific translations in `i18n/pages/[page]/[locale].json`
 
+#### Verifying Internationalization
+
+To test the internationalization setup:
+
+1. Check available locales in the locale configuration:
+
+```bash
+cat i18n/locale.ts
+```
+
+1. Verify messages for each language in the `i18n/messages` directory:
+
+```bash
+ls i18n/messages
+# Should show files like en.json, zh.json, etc.
+```
+
+1. Test language switching functionality in the browser by appending locale to the URL:
+   - English: `http://localhost:3000/en`
+   - Chinese: `http://localhost:3000/zh`
+
+1. Use the locale selector component to switch between languages and verify the content updates correctly.
+
 ### UI Components
 
 UI components are built with Shadcn UI and Tailwind CSS:
@@ -182,6 +205,31 @@ Build and run as a Docker container:
 npm run docker:build
 docker run -p 3000:3000 criteria-template:latest
 ```
+
+### Testing the Creation Script
+
+Before sharing this template, it's recommended to test the creation script to ensure it functions correctly:
+
+1. Test the script locally:
+
+   ```bash
+   ./create-criteria-app.sh test-project
+   ```
+
+2. Verify the new project structure and functionality:
+
+   ```bash
+   cd test-project
+   pnpm install
+   pnpm dev
+   ```
+
+3. Key aspects to verify in the test project:
+   - Environment variables configuration
+   - Authentication setup
+   - Internationalization
+   - Routing functionality
+   - Proper styles and theming
 
 ## Best Practices
 
