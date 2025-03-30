@@ -17,29 +17,31 @@ import { useEffect, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import Fade from "embla-carousel-fade";
 import Icon from "@/components/icon";
-import { Section as SectionType } from "@/types/blocks/section";
+import { Section as SectionType, SectionItem } from "@/types/blocks/section";
 
 const DURATION = 5000;
 
 export default function Feature2({ section }: { section: SectionType }) {
-  if (section.disabled) {
-    return null;
-  }
-
   const [api, setApi] = useState<CarouselApi>();
   const [currentAccordion, setCurrentAccordion] = useState("1");
 
   useEffect(() => {
-    api?.scrollTo(+currentAccordion - 1);
+    if (api) {
+      api.scrollTo(+currentAccordion - 1);
+    }
     const interval = setInterval(() => {
       setCurrentAccordion((prev) => {
-        const next = parseInt(prev) + 1;
-        return next > 3 ? "1" : next.toString();
+        const next = Number(prev) + 1;
+        return next > 3 ? "1" : String(next);
       });
     }, DURATION);
 
     return () => clearInterval(interval);
   }, [api, currentAccordion]);
+
+  if (section.disabled) {
+    return null;
+  }
 
   return (
     <section id={section.name} className="py-32">
@@ -47,7 +49,7 @@ export default function Feature2({ section }: { section: SectionType }) {
         <div className="mx-auto grid gap-20 lg:grid-cols-2">
           <div>
             {section.label && (
-              <Badge variant="outline" className="mb-4">
+              <Badge className="mb-4">
                 {section.label}
               </Badge>
             )}
@@ -62,11 +64,12 @@ export default function Feature2({ section }: { section: SectionType }) {
               value={currentAccordion}
               onValueChange={(value) => {
                 setCurrentAccordion(value);
-                console.log(value);
-                api?.scrollTo(+value - 1);
+                if (api) {
+                  api.scrollTo(+value - 1);
+                }
               }}
             >
-              {section.items?.map((item, i) => (
+              {(section.items || []).map((item: SectionItem, i: number) => (
                 <AccordionItem
                   key={i}
                   value={(i + 1).toString()}
@@ -111,7 +114,7 @@ export default function Feature2({ section }: { section: SectionType }) {
               plugins={[Fade()]}
             >
               <CarouselContent>
-                {section.items?.map((item, i) => (
+                {(section.items || []).map((item: SectionItem, i: number) => (
                   <CarouselItem key={i}>
                     <div>
                       <img

@@ -1,0 +1,4 @@
+# Ignore problematic files
+components/blocks/feature2/index.tsx
+app/(legal)/layout.tsx
+app/[locale]/auth/signin/page.tsx 
