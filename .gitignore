@@ -38,7 +38,28 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-Makefile
 .wrangler
 wrangler.toml
 supabase
+
+# IDE / editors
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+*.sublime-project
+*.sublime-workspace
+
+# logs
+logs
+*.log
+
+# test coverage
+.nyc_output
+
+# temp files
+.temp
+.tmp
+.cache
