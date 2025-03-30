@@ -77,12 +77,16 @@ For detailed template documentation, see [TEMPLATE.md](TEMPLATE.md).
 
 ```bash
 pnpm install
+# or
+make install
 ```
 
 1. Run the development server
 
 ```bash
 pnpm dev
+# or
+make dev
 ```
 
 ## Customize
@@ -109,12 +113,16 @@ This project uses markdownlint-cli2 to automatically fix common markdown linting
 
 ```bash
 pnpm lint:md
+# or
+make lint-md
 ```
 
 - To fix markdown issues:
 
 ```bash
 pnpm lint:md:fix
+# or
+make lint-md-fix
 ```
 
 VS Code users with the markdownlint extension will see real-time linting feedback and can enable format-on-save.
@@ -126,11 +134,8 @@ A test suite is available to verify the markdown linting configuration:
 ```bash
 # Run all tests
 ./tests/run-markdown-tests.sh
-
-# Or run individual tests
-./tests/test-markdown-linting.sh
-./tests/test-pre-commit.sh
-./tests/test-vscode-format.sh
+# or
+make test-markdown
 ```
 
 These tests verify:
@@ -139,6 +144,64 @@ These tests verify:
 - Automatic fixing of fixable issues
 - Pre-commit hook functionality
 - VS Code format-on-save simulation
+
+### TypeScript Type Checking
+
+You can run TypeScript type checking to ensure type safety:
+
+```bash
+./tests/test-typescript.sh
+# or
+make test-typescript
+```
+
+This validates that your code follows TypeScript's type system correctly.
+
+### Dependency Management
+
+You can check for outdated dependencies:
+
+```bash
+./tests/check-dependencies.sh
+# or
+make check-deps
+```
+
+This helps ensure your project is using the most up-to-date and secure dependency versions.
+
+### Security Checks
+
+You can scan your dependencies for known security vulnerabilities:
+
+```bash
+./tests/security-check.sh
+# or
+make security-check
+```
+
+This runs an audit of your dependencies and reports any security issues found.
+
+## Development Tools
+
+This project includes a Makefile to simplify common development tasks. To see all available commands:
+
+```bash
+make help
+```
+
+Key commands include:
+
+- `make install` - Install dependencies
+- `make dev` - Start development server
+- `make build` - Build the project
+- `make test` - Run all tests
+- `make test-markdown` - Run markdown tests
+- `make test-typescript` - Run TypeScript type checking
+- `make check-deps` - Check for outdated dependencies
+- `make security-check` - Run security audit
+- `make lint` - Run linters
+- `make deploy-vercel` - Deploy to Vercel
+- `make deploy-cf` - Deploy to Cloudflare
 
 ## Deploy
 
