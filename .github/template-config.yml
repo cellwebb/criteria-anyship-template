@@ -1,0 +1,27 @@
+# GitHub Template Configuration
+
+# This will appear when users click "Use this template"
+name: ShipAny Next.js Template
+description: Modern Next.js template with TypeScript, Tailwind CSS, Shadcn UI, Next-Auth, and more.
+
+# Includes all branches
+include:
+  - main
+
+# Files/folders that will not be included in the template
+excludes:
+  - .git
+  - .github/workflows
+  - node_modules
+  - .env
+
+# Suggest users to run the setup script after creating a new repository
+post_generate_message: |
+  🚀 Thanks for using ShipAny Next.js Template!
+  
+  To set up your project:
+  1. Clone your new repository
+  2. Install dependencies: `pnpm install` or `npm install`
+  3. Run the setup script: `pnpm setup` or `npm run setup`
+  
+  For detailed documentation, see `TEMPLATE.md` 

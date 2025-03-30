@@ -13,7 +13,8 @@
     "cf:build": "npx @cloudflare/next-on-pages",
     "cf:preview": "pnpm cf:build && wrangler pages dev",
     "cf:deploy": "pnpm cf:build && wrangler pages deploy",
-    "docker:build": "docker build -f Dockerfile -t shipany-template-one:latest ."
+    "docker:build": "docker build -f Dockerfile -t shipany-template-one:latest .",
+    "setup": "node lib/setup.js"
   },
   "dependencies": {
     "@ai-sdk/deepseek": "^0.1.11",

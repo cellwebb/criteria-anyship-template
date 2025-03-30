@@ -4,21 +4,62 @@ Ship Any AI SaaS Startups in hours.
 
 ![preview](preview.png)
 
-## Quick Start
+## Using as a Template
+
+This repository is set up as a template that you can quickly use to start new projects:
+
+### Method 1: GitHub Template (Recommended)
+
+1. Click the "Use this template" button on GitHub
+2. Clone your new repository
+3. Run the setup script to customize your project:
+   ```bash
+   pnpm setup
+   # or 
+   npm run setup
+   ```
+
+### Method 2: Clone and Setup Manually
 
 1. Clone the repository
+   ```bash
+   git clone https://github.com/shipanyai/shipany-template-one.git my-project
+   ```
+2. Navigate to the project directory
+   ```bash
+   cd my-project
+   ```
+3. Run the setup script
+   ```bash
+   pnpm setup
+   # or
+   npm run setup
+   ```
+
+### Method 3: Use the Creation Script
+
+Use our standalone script to create a new project:
 
 ```bash
+# Using curl
+curl -fsSL https://raw.githubusercontent.com/shipanyai/shipany-template-one/main/create-shipany-app.sh | bash -s my-project
+
+# Or clone and run
 git clone https://github.com/shipanyai/shipany-template-one.git
+./shipany-template-one/create-shipany-app.sh my-project
 ```
 
-2. Install dependencies
+For detailed template documentation, see [TEMPLATE.md](TEMPLATE.md).
+
+## Quick Start
+
+1. Install dependencies
 
 ```bash
 pnpm install
 ```
 
-3. Run the development server
+2. Run the development server
 
 ```bash
 pnpm dev
