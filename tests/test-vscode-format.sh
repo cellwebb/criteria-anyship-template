@@ -24,52 +24,56 @@ cat > "$TEMP_CONFIG" << 'EOF'
 }
 EOF
 
-# Create a test file with issues
+# Create a temporary test file with known markdown issues
+TEMP_TEST_FILE="tests/vscode-test.md"
 echo -e "${YELLOW}Creating test markdown file with formatting issues...${NC}"
-TEST_FILE="tests/markdown/vscode-test.md"
+cat > "$TEMP_TEST_FILE" << 'EOF'
+# VSCode Format Test
 
-cat > "$TEST_FILE" << 'EOF'
-# VS Code Format Test
+##Missing space after heading
 
-This line has trailing spaces.   
+This is a paragraph with  double  spaces.
 
-This line has  multiple  spaces.
+* Bullet list
+* With inconsistent
+- markers
 
-* This is a bullet point
-*This is missing a space after the asterisk
+[Broken link](
 
-```
-// Code block without language
-function test() {
-  console.log("Hello");
+![Missing alt text]()
+
+```javascript
+// Code with no spacing
+function test(){
+console.log("hello");
 }
 ```
-
-1. First item
-2. Second item
 EOF
 
 echo -e "${YELLOW}Test file created. Now simulating VS Code format on save...${NC}"
-echo -e "Running: pnpm exec markdownlint-cli2 --fix --no-include-default-config --config $TEMP_CONFIG $TEST_FILE"
 
-# Save the original for comparison
-cp "$TEST_FILE" "${TEST_FILE}.orig"
+# Make a copy for comparison
+cp "$TEMP_TEST_FILE" "${TEMP_TEST_FILE}.original"
 
-# Run the formatter
-pnpm exec markdownlint-cli2 --fix --no-include-default-config --config "$TEMP_CONFIG" "$TEST_FILE" || true
+# Simulate VS Code format on save using markdownlint-cli2 --fix
+echo -e "Running: pnpm exec markdownlint-cli2 --fix --no-include-default-config --config $TEMP_CONFIG $TEMP_TEST_FILE"
+pnpm exec markdownlint-cli2 --fix --no-include-default-config --config "$TEMP_CONFIG" "$TEMP_TEST_FILE" || true
 
-# Compare files before and after fixing
+# Compare before and after
 echo -e "${YELLOW}Checking differences after simulated format-on-save:${NC}"
-if diff -q "$TEST_FILE" "${TEST_FILE}.orig" > /dev/null; then
+if diff -q "$TEMP_TEST_FILE" "${TEMP_TEST_FILE}.original" > /dev/null; then
   echo -e "${RED}✘ No changes made to test file${NC}"
+  ERROR_CODE=1
 else
-  echo -e "${GREEN}✓ Successfully formatted test file${NC}"
+  echo -e "${GREEN}✓ Successfully fixed formatting issues${NC}"
   echo -e "${BLUE}Changes made:${NC}"
-  diff -u "${TEST_FILE}.orig" "$TEST_FILE" | grep -v "^---" | grep -v "^+++" | grep "^[+-]"
+  diff -u "${TEMP_TEST_FILE}.original" "$TEMP_TEST_FILE" | grep -v "^---" | grep -v "^+++" | grep "^[+-]" | head -10
+  ERROR_CODE=0
 fi
 
 # Cleanup
-rm -f "${TEST_FILE}.orig"
-rm -f "$TEMP_CONFIG"
+rm -f "$TEMP_CONFIG" "$TEMP_TEST_FILE" "${TEMP_TEST_FILE}.original"
 
-echo -e "${BLUE}=== Test Complete ===${NC}" 
+echo -e "${BLUE}=== Test Complete ===${NC}"
+
+exit $ERROR_CODE 

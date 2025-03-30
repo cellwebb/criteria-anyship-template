@@ -24,43 +24,67 @@ cat > "$TEMP_CONFIG" << 'EOF'
 }
 EOF
 
+# Create a temporary test file with known markdown issues
+TEMP_TEST_FILE="tests/temp-test-file.md"
+echo -e "${YELLOW}Creating temporary test file with issues...${NC}"
+cat > "$TEMP_TEST_FILE" << 'EOF'
+# Test Heading with Issues
+
+##Missing space
+
+This is a paragraph with  extra  spacing.
+
+* Bullet
+* list with inconsistent markers
+- inconsistent marker
+
+```js
+// Code block without proper spacing
+var test = function() {
+  console.log("Hello world");
+}
+```
+
+[Link text with no destination]()
+
+![Image with no source or alt]()
+EOF
+
 # Test detection of issues
 echo -e "${YELLOW}Testing issue detection...${NC}"
-echo -e "Running: pnpm exec markdownlint-cli2 --no-include-default-config --config $TEMP_CONFIG tests/markdown/*.md"
-if pnpm exec markdownlint-cli2 --no-include-default-config --config "$TEMP_CONFIG" tests/markdown/*.md > /dev/null 2>&1; then
-  echo -e "${RED}✘ ERROR: Linter didn't detect any issues in test files that contain deliberate errors${NC}"
-  echo
+echo -e "Running: pnpm exec markdownlint-cli2 --no-include-default-config --config $TEMP_CONFIG $TEMP_TEST_FILE"
+if pnpm exec markdownlint-cli2 --no-include-default-config --config "$TEMP_CONFIG" "$TEMP_TEST_FILE" > /dev/null 2>&1; then
+  echo -e "${RED}✘ ERROR: Linter didn't detect any issues in test file that contains deliberate errors${NC}"
+  ERROR_COUNT=1
 else
-  echo -e "${GREEN}✓ SUCCESS: Linter correctly detected issues in test files${NC}"
-  echo
+  echo -e "${GREEN}✓ SUCCESS: Linter correctly detected issues in test file${NC}"
+  ERROR_COUNT=0
 fi
 
-# Save original files for comparison
-echo -e "${YELLOW}Creating backup of test files for comparison...${NC}"
-mkdir -p tests/markdown/backup
-cp tests/markdown/*.md tests/markdown/backup/
+# Copy the file for comparison after fixing
+cp "$TEMP_TEST_FILE" "${TEMP_TEST_FILE}.original"
 
 # Test auto-fixing
 echo -e "${YELLOW}Testing auto-fixing...${NC}"
-echo -e "Running: pnpm exec markdownlint-cli2 --fix --no-include-default-config --config $TEMP_CONFIG tests/markdown/*.md"
-pnpm exec markdownlint-cli2 --fix --no-include-default-config --config "$TEMP_CONFIG" tests/markdown/*.md || true
+echo -e "Running: pnpm exec markdownlint-cli2 --fix --no-include-default-config --config $TEMP_CONFIG $TEMP_TEST_FILE"
+pnpm exec markdownlint-cli2 --fix --no-include-default-config --config "$TEMP_CONFIG" "$TEMP_TEST_FILE" || true
 
-# Compare files before and after fixing
+# Compare file before and after fixing
 echo -e "${YELLOW}Checking differences after auto-fixing:${NC}"
-for file in tests/markdown/*.md; do
-  basename=$(basename "$file")
-  if diff -q "$file" "tests/markdown/backup/$basename" > /dev/null; then
-    echo -e "${RED}✘ No changes made to $basename${NC}"
-  else
-    echo -e "${GREEN}✓ Successfully fixed issues in $basename${NC}"
-    echo -e "${BLUE}Changes made:${NC}"
-    diff -u "tests/markdown/backup/$basename" "$file" | grep -v "^---" | grep -v "^+++" | grep "^[+-]" | head -10
-    echo
-  fi
-done
+if diff -q "$TEMP_TEST_FILE" "${TEMP_TEST_FILE}.original" > /dev/null; then
+  echo -e "${RED}✘ No changes made to test file${NC}"
+  ERROR_COUNT=$((ERROR_COUNT + 1))
+else
+  echo -e "${GREEN}✓ Successfully fixed issues in test file${NC}"
+  echo -e "${BLUE}Changes made:${NC}"
+  diff -u "${TEMP_TEST_FILE}.original" "$TEMP_TEST_FILE" | grep -v "^---" | grep -v "^+++" | grep "^[+-]" | head -10
+  echo
+fi
 
 # Cleanup
-rm -rf tests/markdown/backup
-rm -f "$TEMP_CONFIG"
+rm -f "$TEMP_CONFIG" "$TEMP_TEST_FILE" "${TEMP_TEST_FILE}.original"
 
-echo -e "${BLUE}=== Test Complete ===${NC}" 
+echo -e "${BLUE}=== Test Complete ===${NC}"
+
+# Return error code if any tests failed
+exit $ERROR_COUNT 

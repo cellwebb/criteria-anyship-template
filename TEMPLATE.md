@@ -206,6 +206,22 @@ docker run -p 3000:3000 criteria-template:latest
 - Use HTTPS for all API requests
 - Keep dependencies updated regularly with `make check-deps`
 
+### Continuous Integration
+
+This template includes GitHub Actions workflows for continuous integration:
+
+- Automatic TypeScript type checking
+- Markdown linting and validation
+- Dependency checks
+- Security vulnerability scanning
+- Build verification
+
+To customize the CI workflow:
+
+1. Edit the configuration in `.github/workflows/ci.yml`
+2. Add additional test steps as needed
+3. Configure notifications or integration with other services
+
 ## Troubleshooting
 
 ### Common Issues

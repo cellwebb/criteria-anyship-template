@@ -104,6 +104,74 @@ This script:
    make dev
    ```
 
+### Quick Start with Makefile
+
+The template includes a powerful Makefile that simplifies common development tasks:
+
+1. View all available commands:
+
+   ```bash
+   make help
+   ```
+
+2. Development workflow:
+
+   ```bash
+   # Install dependencies
+   make install
+   
+   # Start development server
+   make dev
+   
+   # Build for production
+   make build
+   
+   # Start production server
+   make start
+   ```
+
+3. Code quality:
+
+   ```bash
+   # Run all tests
+   make test
+   
+   # Check TypeScript types
+   make test-typescript
+   
+   # Run markdown tests
+   make test-markdown
+   
+   # Lint code
+   make lint
+   
+   # Fix markdown issues
+   make lint-md-fix
+   ```
+
+4. Maintenance:
+
+   ```bash
+   # Check for outdated dependencies
+   make check-deps
+   
+   # Run security checks
+   make security-check
+   
+   # Clean build artifacts
+   make clean
+   ```
+
+5. Deployment:
+
+   ```bash
+   # Deploy to Vercel
+   make deploy-vercel
+   
+   # Deploy to Cloudflare
+   make deploy-cf
+   ```
+
 ## 🔧 Development Workflow
 
 ### Development Tools
