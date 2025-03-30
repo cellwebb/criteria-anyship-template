@@ -119,6 +119,27 @@ pnpm lint:md:fix
 
 VS Code users with the markdownlint extension will see real-time linting feedback and can enable format-on-save.
 
+### Testing Markdown Linting
+
+A test suite is available to verify the markdown linting configuration:
+
+```bash
+# Run all tests
+./tests/run-markdown-tests.sh
+
+# Or run individual tests
+./tests/test-markdown-linting.sh
+./tests/test-pre-commit.sh
+./tests/test-vscode-format.sh
+```
+
+These tests verify:
+
+- Detection of common markdown issues
+- Automatic fixing of fixable issues
+- Pre-commit hook functionality
+- VS Code format-on-save simulation
+
 ## Deploy
 
 - Deploy to Vercel

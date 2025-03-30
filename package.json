@@ -111,6 +111,6 @@
     "wrangler": "3.97.0"
   },
   "lint-staged": {
-    "**/*.md": "markdownlint-cli2 --fix"
+    "**/!(tests)/**/*.md": "markdownlint-cli2 --fix"
   }
 }
