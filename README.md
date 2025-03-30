@@ -11,7 +11,7 @@ Modern Next.js template for Criteria projects.
 - [Development Workflow](#-development-workflow)
 - [Testing & Quality Assurance](#-testing--quality-assurance)
 - [Deployment](#-deployment)
-- [Project Configuration & Customization](#-project-configuration--customization)
+- [Project Configuration & Customization](#️-project-configuration--customization)
 - [Resources & Community](#-resources--community)
 - [License](#-license)
 
